@@ -2,32 +2,66 @@
 
 import { useEffect } from "react";
 
-export default function Home() {
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("/api/data");
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const jsonData = await response.json();
-        console.log("data", jsonData);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
+import CCard from "@/common/components/others/CCard";
 
-    fetchData();
+import http from "@/utils/axios/index";
+import { useQuery } from "@tanstack/react-query";
+import { getData } from "@/api";
+
+export default function Home() {
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await http.get("/api/data", {
+  //         params: {
+  //           spreadsheetId: "1MCUoHrTrZ1LilYjupc8hWVpg9W5_zebQDdX4jxwxHYs",
+  //           range: "Trang tính2",
+  //         },
+  //       });
+
+  //       console.log("data", response.data);
+  //     } catch (error) {
+  //       console.error("Error fetching data:", error);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, []);
+
+  const fetchSpreadsheetData = async () => {
+    try {
+      const response = await getData({
+        spreadsheetId: "1MCUoHrTrZ1LilYjupc8hWVpg9W5_zebQDdX4jxwxHYs",
+        range: "Trang tính2",
+      });
+      console.log("data", response.data);
+      return response.data;
+    } catch (error) {
+      throw new Error("Error fetching data");
+    }
+  };
+
+  // const { data } = useQuery({
+  //   queryKey: ["data"],
+  //   queryFn: () => fetchSpreadsheetData(),
+  // });
+
+  // console.log("data", data);
+
+  useEffect(() => {
+    fetchSpreadsheetData();
   }, []);
 
   // const googleDriveLink =
   //   "https://drive.google.com/file/d/10TTj7_Gs6l1Zr1ogIiocK1Fk5hSiqgs-/view?usp=drive_link";
   // const fileId = googleDriveLink?.match(/\/d\/(.*?)\//)[1];
   // const directLink = `https://drive.google.com/thumbnail?id=${fileId}`;
+
+  const image = "/note.jpg";
   return (
     <main className=" h-svh">
       <div className=" grid grid-cols-9 h-full p-2 gap-3">
-        <div className=" col-span-2"></div>
+        <div className=" col-span-2 flex bg-sky-600"></div>
         <div className=" col-span-3 grid grid-rows-2 gap-32">
           <div className=" h-full flex flex-col gap-4">
             <div className=" uppercase text-center font-semibold text-2xl">
@@ -35,33 +69,71 @@ export default function Home() {
             </div>
             <div className=" grid grid-cols-2 flex-grow gap-14">
               <div className=" grid grid-cols-2 gap-5">
-                <div className=" rounded-xl bg-slate-300 flex justify-center items-center ">
-                  Giải tuần 1
-                </div>
-                <div className=" rounded-xl bg-slate-300 flex justify-center items-center ">
-                  Giải tuần 2
-                </div>
-                <div className=" rounded-xl bg-slate-300 flex justify-center items-center ">
-                  Giải tuần 3
-                </div>
-                <div className=" rounded-xl bg-slate-300 flex justify-center items-center ">
-                  Giải tuần 4
-                </div>
+                <CCard label="Giải tuần 1" />
+                <CCard label="Giải tuần 2" />
+                <CCard label="Giải tuần 3" />
+                <CCard label="Giải tuần 4" />
               </div>
-              <div className=" rounded-xl bg-slate-300 flex justify-center items-center text-center">
-                ICOOLER đạt giải tại chiến dịch Nụ Cười ICOOL tháng
-              </div>
+
+              <CCard label=" ICOOLER đạt giải tại chiến dịch Nụ Cười ICOOL tháng" />
             </div>
           </div>
-          <div>
+          <div className=" flex flex-col gap-2">
             <div className=" uppercase text-center font-semibold text-2xl">
               Góc KAIZEN
             </div>
-            <div className=" grid grid-cols-4">
-              <div>
-                <div className="bg-[#1E5CFA] text-white font-bold uppercase rounded-lg text-2xl font-serif flex justify-center px-2 py-1 w-max">
-                  ideas
+            <div className=" grid grid-cols-4 flex-grow gap-2">
+              <div className=" flex flex-col justify-center">
+                <div className=" flex justify-center">
+                  <div className="bg-[#1E5CFA] text-white font-bold uppercase rounded-lg text-2xl font-serif flex justify-center px-2 py-1 w-max">
+                    ideas
+                  </div>
                 </div>
+                <div
+                  style={{
+                    backgroundImage: `url(${image})`,
+                  }}
+                  className=" flex-grow bg-cover bg-center"
+                ></div>
+              </div>
+              <div className=" flex flex-col justify-center">
+                <div className=" flex justify-center">
+                  <div className="bg-[#1E5CFA] text-white font-bold uppercase rounded-lg text-2xl font-serif flex justify-center px-2 py-1 w-max">
+                    to do
+                  </div>
+                </div>
+                <div
+                  style={{
+                    backgroundImage: `url(${image})`,
+                  }}
+                  className=" flex-grow bg-cover bg-center"
+                ></div>
+              </div>
+              <div className=" flex flex-col justify-center">
+                <div className=" flex justify-center">
+                  <div className="bg-[#1E5CFA] text-white font-bold uppercase rounded-lg text-2xl font-serif flex justify-center px-2 py-1 w-max">
+                    doing
+                  </div>
+                </div>
+                <div
+                  style={{
+                    backgroundImage: `url(${image})`,
+                  }}
+                  className=" flex-grow bg-cover bg-center"
+                ></div>
+              </div>
+              <div className=" flex flex-col justify-center">
+                <div className=" flex justify-center">
+                  <div className="bg-[#1E5CFA] text-white font-bold uppercase rounded-lg text-2xl font-serif flex justify-center px-2 py-1 w-max">
+                    done
+                  </div>
+                </div>
+                <div
+                  style={{
+                    backgroundImage: `url(${image})`,
+                  }}
+                  className=" flex-grow bg-cover bg-center"
+                ></div>
               </div>
             </div>
           </div>
@@ -72,18 +144,10 @@ export default function Home() {
               Vinh danh giải tay nghề
             </div>
             <div className=" flex-grow grid grid-cols-4 gap-3">
-              <div className=" rounded-xl bg-slate-300 flex justify-center items-center h-4/5 text-center">
-                Các giải tay nghề
-              </div>
-              <div className=" rounded-xl bg-slate-300 flex justify-center items-center h-4/5 text-center">
-                Các giải tay nghề
-              </div>
-              <div className=" rounded-xl bg-slate-300 flex justify-center items-center h-4/5 text-center">
-                Các giải tay nghề
-              </div>
-              <div className=" rounded-xl bg-slate-300 flex justify-center items-center h-4/5 text-center">
-                Các giải tay nghề
-              </div>
+              <CCard className="h-4/5" label="Các giải tay nghề" />
+              <CCard className="h-4/5" label="Các giải tay nghề" />
+              <CCard className="h-4/5" label="Các giải tay nghề" />
+              <CCard className="h-4/5" label="Các giải tay nghề" />
             </div>
           </div>
           <div className=" flex gap-2 flex-grow">
@@ -94,7 +158,7 @@ export default function Home() {
                 Lịch làm việc
               </div>
               <div className=" bg-[#C8CBD5] px-5 pt-7 pb-[35%] flex-grow rounded-lg">
-                <div className=" flex bg-stone-900 w-full h-full"></div>
+                <div className=" flex bg-[#1B0000] w-full h-full"></div>
               </div>
             </div>
           </div>
@@ -105,7 +169,9 @@ export default function Home() {
               Cập nhật <br /> tình huống
             </div>
             <div className=" bg-[#C8CBD5] px-5 pt-7 pb-[35%] flex-grow rounded-lg">
-              <div className=" flex bg-stone-900 w-full h-full"></div>
+              <div className=" flex bg-[#1B0000] w-full h-full">
+                Cập nhật sổ tay tính huống mới
+              </div>
             </div>
           </div>
           <div className=" flex flex-col gap-2">
@@ -113,7 +179,7 @@ export default function Home() {
               Lỗi cần tránh
             </div>
             <div className=" bg-[#C8CBD5] px-5 pt-7 pb-[35%] flex-grow rounded-lg">
-              <div className=" flex bg-stone-900 w-full h-full"></div>
+              <div className=" flex bg-[#1B0000] w-full h-full"></div>
             </div>
           </div>
         </div>

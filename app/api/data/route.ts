@@ -1,19 +1,42 @@
 import { getRecords } from "@/common/googleSheetService";
-import { google } from "googleapis";
-import { NextResponse } from "next/server";
-import { join } from "path";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
-    const CREDENTIALS_PATH = join(process.cwd(), "googlesheet.json");
+    const spreadsheetId = req.nextUrl.searchParams.get("spreadsheetId");
+    const range = req.nextUrl.searchParams.get("range");
 
-    const auth = new google.auth.GoogleAuth({
-      keyFilename: CREDENTIALS_PATH,
-      scopes: ["https://www.googleapis.com/auth/spreadsheets"],
-    });
+    if (!spreadsheetId || !range) {
+      return NextResponse.json(
+        {
+          error:
+            "Missing required query parameters: spreadsheetId and/or range",
+        },
+        { status: 400 }
+      );
+    }
 
-    return NextResponse.json({ data: await getRecords(auth) }, { status: 200 });
+    console.log("Fetching data with", spreadsheetId, range);
+
+    const data = await getRecords(spreadsheetId, range);
+
+    if (data) {
+      // Chuyển đổi mảng hai chiều thành mảng một chiều
+      const flattenedData = data.slice(1).map((row) => {
+        const obj: Record<string, any> = {};
+        data[0].forEach((key, index) => {
+          obj[key] = row[index] ? row[index] : "";
+        });
+        return obj;
+      });
+
+      return NextResponse.json({ data: flattenedData }, { status: 200 });
+    }
   } catch (error) {
-    console.log("error", error);
+    console.error("Error fetching records:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch records" },
+      { status: 500 }
+    );
   }
 }

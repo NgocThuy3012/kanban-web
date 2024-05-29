@@ -1,13 +1,18 @@
 import { google } from "googleapis";
+import { join } from "path";
 
-const SHEET_ID = "1MCUoHrTrZ1LilYjupc8hWVpg9W5_zebQDdX4jxwxHYs";
-const SHEET_NAME = "trang1";
+export async function getRecords(spreadsheetId: string, range: string) {
+  const CREDENTIALS_PATH = join(process.cwd(), "googlesheet.json");
 
-export async function getRecords(auth: any) {
+  const auth = new google.auth.GoogleAuth({
+    keyFilename: CREDENTIALS_PATH,
+    scopes: ["https://www.googleapis.com/auth/spreadsheets"],
+  });
+
   const googleSheetApi = google.sheets({ version: "v4", auth: auth });
   const readOptions = {
-    spreadsheetId: SHEET_ID,
-    range: SHEET_NAME,
+    spreadsheetId: spreadsheetId,
+    range: range,
   };
 
   let dataFromSheet = await googleSheetApi.spreadsheets.values.get(readOptions);
