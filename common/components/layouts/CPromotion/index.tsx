@@ -2,9 +2,9 @@
 
 import { getData } from "@/api";
 import { IGetromotion } from "@/types";
-import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import PromotionItem from "./PromotionItem";
 
 const CPromotion = () => {
   const path = useParams();
@@ -32,22 +32,27 @@ const CPromotion = () => {
   };
 
   useEffect(() => {
-    fetchSpreadsheetData();
+    const interval = setInterval(() => {
+      fetchSpreadsheetData();
+    }, 7200000);
+
+    return () => clearInterval(interval);
   }, [id]);
 
   return (
     <div className="flex-col bg-white rounded-lg flex p-5 gap-2">
-      <div className="text-[#117DB7] font-medium flex justify-center">
+      <div className="text-[#117DB7] font-bold flex justify-center">
         Sơ đồ thăng tiến
       </div>
       <div className=" grid grid-cols-2 flex-grow ">
         {data &&
           data?.map((item, index) => (
-            <div key={index}>
-              <Link href={item.link || ""} className=" underline">
-                {item?.position}
-              </Link>
-            </div>
+            <PromotionItem key={index} data={item} />
+            // <div key={index}>
+            //   <Link href={item.link || ""} className=" underline">
+            //     {item?.position}
+            //   </Link>
+            // </div>
           ))}
       </div>
     </div>

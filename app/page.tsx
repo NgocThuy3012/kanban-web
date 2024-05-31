@@ -60,7 +60,7 @@ export default function Home() {
   const image = "/note.jpg";
   return (
     <main className=" h-svh">
-      <div className=" grid grid-cols-9 h-full p-2 gap-3">
+      {/* <div className=" grid grid-cols-9 h-full p-2 gap-3">
         <div className=" col-span-2 flex bg-sky-600"></div>
         <div className=" col-span-3 grid grid-rows-2 gap-32">
           <div className=" h-full flex flex-col gap-4">
@@ -183,7 +183,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </main>
   );
 }

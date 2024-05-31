@@ -42,12 +42,16 @@ const CGroup = () => {
   };
 
   useEffect(() => {
-    fetchSpreadsheetData();
+    const interval = setInterval(() => {
+      fetchSpreadsheetData();
+    }, 7200000);
+
+    return () => clearInterval(interval);
   }, [id]);
 
   return (
     <div className=" flex flex-col gap-2">
-      <div className=" text-[#117DB7] font-medium flex">ICOOL Vui Vẻ</div>
+      <div className=" text-[#117DB7] font-bold flex">ICOOL Vui Vẻ</div>
       {data && data.image ? (
         <Link href={data.link || ""}>
           <img
@@ -57,7 +61,9 @@ const CGroup = () => {
           />
         </Link>
       ) : (
-        <div className="flex-grow rounded-xl bg-[#D9D9D9] "> </div>
+        <div className="flex-grow rounded-xl  border-slate-200 border-2 ">
+          {" "}
+        </div>
       )}
     </div>
   );

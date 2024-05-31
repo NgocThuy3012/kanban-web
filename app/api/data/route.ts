@@ -16,7 +16,7 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    console.log("Fetching data with", spreadsheetId, range);
+    // console.log("Fetching data with", spreadsheetId, range);
 
     const data = await getRecords(spreadsheetId, range);
 

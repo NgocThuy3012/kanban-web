@@ -35,35 +35,41 @@ const CNotification = () => {
   };
 
   useEffect(() => {
-    fetchSpreadsheetData();
+    const interval = setInterval(() => {
+      fetchSpreadsheetData();
+    }, 7200000);
+
+    return () => clearInterval(interval);
   }, [id]);
 
-  console.log("noti", data);
   return (
-    <div className="flex flex-col gap-6 h-full">
-      <div className="flex justify-between w-full gap-8">
+    <div className=" flex flex-col gap-6 h-full">
+      <div className=" flex justify-between w-full gap-8">
         <div>
           <Image src={logo} alt="" />
         </div>
         <div>
-          <span className="font-bold">Đến ICOOL</span> <br />
-          <span className="text-neutral-700">ai cũng là ca sĩ</span>
+          <span className=" font-bold">Đến ICOOL</span> <br />
+          <span className=" text-neutral-700">ai cũng là ca sĩ</span>
         </div>
       </div>
-      <div className="flex-grow grid grid-rows-2 gap-4">
-        <div className="grid-rows-2 grid gap-4">
-          <div className="grid grid-cols-2 gap-4">
+      <div className=" flex-grow grid grid-cols-1 gap-4">
+        <div className=" grid-rows-2 grid gap-4">
+          <div className=" grid grid-cols-2 gap-4">
             <CImages />
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div className="flex flex-col gap-2 h-full">
-              <div className="text-[#117DB7] font-medium">Thông báo</div>
-              <div className="flex-grow rounded-xl bg-[#D9D9D9] overflow-y-scroll max-h-60 min-h-60">
+          <div className=" grid grid-cols-2 gap-4">
+            <div className="flex flex-col gap-2">
+              <div className=" text-[#117DB7] font-bold flex">Thông báo</div>
+              <div className=" flex-grow rounded-xl  border-slate-200 border-2 p-2">
                 {data &&
-                  data.map((item, index) => (
+                  data?.map((item, index) => (
                     <div key={index}>
-                      <Link href={item.link || ""} className="underline">
+                      <Link
+                        href={item.link || ""}
+                        className=" underline line-clamp-2"
+                      >
                         {item?.position}
                       </Link>
                     </div>

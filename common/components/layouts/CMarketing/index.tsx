@@ -2,9 +2,9 @@
 
 import { getData } from "@/api";
 import { IGetromotion } from "@/types";
-import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import MarketingItem from "./MarketingItem";
 
 const CMarketing = () => {
   const path = useParams();
@@ -32,20 +32,25 @@ const CMarketing = () => {
   };
 
   useEffect(() => {
-    fetchSpreadsheetData();
+    const interval = setInterval(() => {
+      fetchSpreadsheetData();
+    }, 7200000);
+
+    return () => clearInterval(interval);
   }, [id]);
 
   return (
     <div className=" flex flex-col gap-2 h-full">
-      <div className=" text-[#117DB7] font-medium flex">Marketing</div>
-      <div className="flex-grow rounded-xl bg-[#D9D9D9] p-5 flex flex-col gap-2">
+      <div className=" text-[#117DB7] font-bold flex">Marketing</div>
+      <div className="flex-grow rounded-xl  border-slate-200 border-2 p-5 flex flex-col gap-2">
         {data &&
           data?.map((item, index) => (
-            <div key={index}>
-              <Link href={item.link || ""} className=" underline">
-                {item?.position}
-              </Link>
-            </div>
+            <MarketingItem key={index} data={item} />
+            // <div key={index}>
+            //   <Link href={item.link || ""} className=" underline line-clamp-3">
+            //     {item?.position}
+            //   </Link>
+            // </div>
           ))}
       </div>
     </div>

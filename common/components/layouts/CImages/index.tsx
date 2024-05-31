@@ -47,7 +47,11 @@ const CImages = () => {
   };
 
   useEffect(() => {
-    fetchSpreadsheetData();
+    const interval = setInterval(() => {
+      fetchSpreadsheetData();
+    }, 7200000);
+
+    return () => clearInterval(interval);
   }, [id]);
 
   return (
@@ -55,7 +59,7 @@ const CImages = () => {
       {data ? (
         data.map((item, index) => (
           <div className=" flex flex-col gap-2" key={index}>
-            <div className=" text-[#117DB7] font-medium flex">{item.title}</div>
+            <div className=" text-[#117DB7] font-bold flex">{item.title}</div>
 
             {item.link ? (
               <img
@@ -66,23 +70,21 @@ const CImages = () => {
                 className=" w-full h-auto object-cover rounded-xl"
               />
             ) : (
-              <div className="flex-grow rounded-xl bg-[#D9D9D9]"></div>
+              <div className="flex-grow rounded-xl border-slate-200 border-2"></div>
             )}
           </div>
         ))
       ) : (
         <>
           <div className=" flex flex-col gap-2">
-            <div className=" text-[#117DB7] font-medium flex">
-              Happy birthday
-            </div>
+            <div className=" text-[#117DB7] font-bold flex">Happy birthday</div>
 
-            <div className="flex-grow rounded-xl bg-[#D9D9D9]"></div>
+            <div className="flex-grow rounded-xl  border-slate-200 border-2"></div>
           </div>
           <div className=" flex flex-col gap-2">
-            <div className=" text-[#117DB7] font-medium flex">Welcome</div>
+            <div className=" text-[#117DB7] font-bold flex">Welcome</div>
 
-            <div className="flex-grow rounded-xl bg-[#D9D9D9]"></div>
+            <div className="flex-grow rounded-xl  border-slate-200 border-2"></div>
           </div>
         </>
       )}
