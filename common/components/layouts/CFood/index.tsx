@@ -37,6 +37,10 @@ const CFood = () => {
     }, 7200000);
 
     return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    fetchSpreadsheetData();
   }, [id]);
 
   return (

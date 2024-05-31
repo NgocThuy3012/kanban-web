@@ -38,18 +38,17 @@ const CCalendar = () => {
     }
   };
 
-  // useEffect(() => {
-  //   fetchSpreadsheetData();
-  // }, [id]);
+  useEffect(() => {
+    fetchSpreadsheetData();
+  }, [id]);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      // console.log("aaa");
       fetchSpreadsheetData();
     }, 7200000);
-
+    // 7200000
     return () => clearInterval(interval);
-  }, [id]);
+  }, []);
 
   return (
     <div className="flex-col bg-white rounded-lg flex p-5 gap-2">
