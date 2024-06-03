@@ -57,8 +57,8 @@ const CNotification = () => {
           <span className=" text-neutral-700">ai cũng là ca sĩ</span>
         </div>
       </div>
-      <div className=" flex-grow grid grid-cols-1 gap-4">
-        <div className=" grid-rows-2 grid gap-4">
+      <div className=" flex-grow grid grid-rows-3 gap-4">
+        <div className=" row-span-2 grid-rows-2 grid gap-4">
           <div className=" grid grid-cols-2 gap-4">
             <CImages />
           </div>
